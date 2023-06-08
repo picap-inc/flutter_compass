@@ -32,9 +32,6 @@ public final class FlutterCompassPlugin implements FlutterPlugin, StreamHandler 
     // Filtering coefficient 0 < ALPHA < 1
     private static final float ALPHA = 0.45f;
 
-    // Controls the compass update rate in milliseconds
-    private static final int COMPASS_UPDATE_RATE_MS = 32;
-
     private SensorEventListener sensorEventListener;
 
     private Display display;
@@ -65,6 +62,7 @@ public final class FlutterCompassPlugin implements FlutterPlugin, StreamHandler 
         display = ((DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE))
                 .getDisplay(Display.DEFAULT_DISPLAY);
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+
         compassSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         if (compassSensor == null) {
             Log.d(TAG, "Rotation vector sensor not supported on device, "
@@ -143,12 +141,6 @@ public final class FlutterCompassPlugin implements FlutterPlugin, StreamHandler 
 
             @SuppressWarnings("SuspiciousNameCombination")
             private void updateOrientation() {
-                // check when the last time the compass was updated, return if too soon.
-                long currentTime = SystemClock.elapsedRealtime();
-                if (currentTime < compassUpdateNextTimestamp) {
-                    return;
-                }
-
                 if (rotationVectorValue != null) {
                     SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVectorValue);
                 } else {
@@ -269,8 +261,6 @@ public final class FlutterCompassPlugin implements FlutterPlugin, StreamHandler 
                 // The x-axis is all we care about here.
                 notifyCompassChangeListeners(v);
 
-                // Update the compassUpdateNextTimestamp
-                compassUpdateNextTimestamp = currentTime + COMPASS_UPDATE_RATE_MS;
             }
 
             private void notifyCompassChangeListeners(double[] heading) {
