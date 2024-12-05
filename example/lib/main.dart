@@ -74,11 +74,9 @@ class _MyAppState extends State<MyApp> {
                 children: <Widget>[
                   Text(
                     '$_lastRead',
-                    style: Theme.of(context).textTheme.caption,
                   ),
                   Text(
                     '$_lastReadAt',
-                    style: Theme.of(context).textTheme.caption,
                   ),
                 ],
               ),

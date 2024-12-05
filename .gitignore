@@ -71,7 +71,6 @@ build/
 Runner.app.dSYM.zip
 Runner.ipa
 
-
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
 !**/ios/**/default.mode2v3
@@ -83,3 +82,7 @@ fastlane/README.md
 .project
 *.bak
 *.classpath
+
+# FVM Version Cache
+.fvm/
+/.fvmrc
